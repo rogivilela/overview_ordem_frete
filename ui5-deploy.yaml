@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: '2.2'
+metadata:
+  name: overview_ordem_frete
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          url: https://mbcd-dev-s4.ec2.internal:44300
+          client: "100"
+        app:
+          name: ZORD_FRETE_MONI
+          description: inicial
+          package: ZDEV
+          transport: DEVK939825

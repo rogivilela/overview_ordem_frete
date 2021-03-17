@@ -1,0 +1,207 @@
+<mvc:View xmlns="sap.uxap"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:m="sap.m"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:vbm="sap.ui.vbm"
+    displayBlock="true"
+    controllerName="renovRetail.OverviewOrdemFrete.overviewordemfrete.controller.Detail"
+    height="100%">
+    <m:Page showNavButton="true"
+        navButtonPress="onNavBack">
+        <ObjectPageLayout id="ObjectPageLayout"
+            showTitleInHeaderContent="true"
+            alwaysShowContentHeader="false"
+            preserveHeaderStateOnScroll="false"
+            headerContentPinnable="true"
+            isChildPage="true"
+            upperCaseAnchorBar="false">
+            <headerTitle>
+                <ObjectPageDynamicHeaderTitle>
+                    <expandedHeading>
+                        <m:Title text="{= parseFloat(${CodigoInt}) }"
+                            wrapping="true"
+                            class="sapUiSmallMarginEnd"/>
+                    </expandedHeading>
+                    <snappedHeading>
+                        <m:FlexBox wrap="Wrap"
+                            fitContainer="true"
+                            alignItems="Center">
+                            <m:FlexBox wrap="NoWrap"
+                                fitContainer="true"
+                                alignItems="Center"
+                                class="sapUiTinyMarginEnd">
+                                <!-- <f:Avatar src="../../../../../../../{products>ProductPicUrl}" displaySize="S" displayShape="Square"/> -->
+                                <m:Title text="{= parseFloat(${CodigoInt}) }"
+                                    wrapping="true"
+                                    class="sapUiTinyMarginEnd"/>
+                            </m:FlexBox>
+                        </m:FlexBox>
+                    </snappedHeading>
+                    <!-- <navigationActions>
+                        <m:OverflowToolbarButton type="Transparent" icon="sap-icon://full-screen" press="handleFullScreen" id="enterFullScreenBtn" tooltip="Enter Full Screen Mode" visible="{= ${Layout>/actionButtonsInfo/midColumn/fullScreen} !== null }"/>
+                        <m:OverflowToolbarButton type="Transparent" icon="sap-icon://exit-full-screen" press="handleExitFullScreen" id="exitFullScreenBtn" tooltip="Exit Full Screen Mode" visible="{= ${Layout>/actionButtonsInfo/midColumn/exitFullScreen} !== null }"/>
+                        <m:OverflowToolbarButton type="Transparent" icon="sap-icon://decline" press="handleClose" tooltip="Close column" visible="{= ${Layout>/actionButtonsInfo/midColumn/closeColumn} !== null }"/>
+                    </navigationActions> -->
+                </ObjectPageDynamicHeaderTitle>
+            </headerTitle>
+            <headerContent>
+                <m:FlexBox wrap="Wrap"
+                    fitContainer="true"
+                    alignItems="Stretch">
+                    <m:VBox justifyContent="Center"
+                        class="sapUiSmallMarginEnd">
+                        <m:Label text="Documento de Frete"/>
+                        <!-- <m:Text text="{= parseFloat(${TorId}) }"/> -->
+                        <!-- <m:Text text="{TorId}" /> -->
+                        <m:ObjectNumber number="{TorId}"
+                            emphasized="true"/>
+                    </m:VBox>
+                    <m:VBox justifyContent="Center"
+                        class="sapUiSmallMarginEnd">
+                        <m:Label text="Centro"/>
+                        <m:Text text="{Werks} - {NameWerks}"/>
+                    </m:VBox>
+                    <m:VBox justifyContent="Center"
+                        class="sapUiSmallMarginEnd">
+                        <m:Label text="Rota"/>
+                        <m:ObjectNumber number="{Rota}"
+                            emphasized="false"/>
+                    </m:VBox>
+                    <m:VBox justifyContent="Center"
+                        class="sapUiSmallMarginEnd">
+                        <m:Label text="Peso"/>
+                        <m:ObjectNumber number="{PesoBruto} Kg"
+                            emphasized="false"/>
+                    </m:VBox>
+                </m:FlexBox>
+                <m:FlexBox wrap="Wrap"
+                    fitContainer="true"
+                    alignItems="Stretch"
+                    class="sapUiSmallMarginTop">
+                    <!-- <m:VBox justifyContent="Center" class="sapUiSmallMarginEnd">
+								<m:Label text="Data"/>
+							</m:VBox> -->
+                    <m:VBox justifyContent="Center"
+                        class="sapUiSmallMarginEnd">
+                        <m:Label text="Remessas Fusion"/>
+                        <m:ObjectNumber number="{QtdRemFu}"
+                            emphasized="false"/>
+                    </m:VBox>
+                    <m:VBox justifyContent="Center"
+                        class="sapUiSmallMarginEnd">
+                        <m:Label text="Remessas SAP"/>
+                        <m:Text text="{QtdRemSap}"/>
+                    </m:VBox>
+                    <m:VBox justifyContent="Center"
+                        class="sapUiSmallMarginEnd">
+                        <m:Label text="Diferença"/>
+                        <m:ObjectNumber number="{DifQtdRem}"
+                            emphasized="false"/>
+                    </m:VBox>
+                </m:FlexBox>
+            </headerContent>
+            <sections>
+                <ObjectPageSection title="Informações Gerais">
+                    <subSections>
+                        <ObjectPageSubSection>
+                            <blocks>
+                                <form:SimpleForm maxContainerCols="2"
+                                    editable="false"
+                                    layout="ResponsiveGridLayout"
+                                    labelSpanL="12"
+                                    labelSpanM="12"
+                                    emptySpanL="0"
+                                    emptySpanM="0"
+                                    columnsL="1"
+                                    columnsM="1">
+                                    <form:content>
+                                        <m:Label text="Motorista"/>
+                                        <m:Text text="{Motorista}"/>
+                                        <m:Label text="Veículo"/>
+                                        <m:Text text="{Placa} - {Frota}"/>
+                                        <m:Label text="Supplier"/>
+                                        <m:Text text="{products>SupplierName}"/>
+                                    </form:content>
+                                </form:SimpleForm>
+                            </blocks>
+                        </ObjectPageSubSection>
+                    </subSections>
+                </ObjectPageSection>
+                <!-- <ObjectPageSection title="Mapa">
+                    <subSections>
+                        <ObjectPageSubSection>
+                            <blocks>
+                                <m:HBox height="200px" width="100%">
+                                    <vbm:GeoMap id="GeoMap" class="sapUiLargeMarginEnd" width="300px" height="100%">
+                                        <vbm:Spots id="id_spots_in" posChangeable="true" scaleChangeable="false">
+                                            <vbm:items>
+                                                <vbm:Spot id="id_spot_from" text="Partida" image="India" position="-34.938050546627345;-8.0140129"></vbm:Spot>
+                                                <vbm:Spot id="id_spot_to" text="Chegada" image="India" position="-34.8974;-8.1249"></vbm:Spot>
+                                            </vbm:items>
+                                        </vbm:Spots>
+                                    </vbm:GeoMap>
+
+                                </m:HBox>
+                            </blocks>
+                        </ObjectPageSubSection>
+                    </subSections>
+                </ObjectPageSection> -->
+                <ObjectPageSection title="Remessas">
+                    <subSections>
+                        <ObjectPageSubSection>
+                            <blocks>
+                                <m:Table id="suppliersTable"
+                                    items="{ToRemessas}"
+                                    autoPopinMode="true">
+                                    <m:columns>
+                                        <m:Column>
+                                            <m:Text text="Remessa" />
+                                        </m:Column>
+                                        <m:Column>
+                                            <m:Text text="Sequencia Entrega" />
+                                        </m:Column>
+                                        <m:Column>
+                                            <m:Text text="Peso" />
+                                        </m:Column>
+                                        <m:Column>
+                                            <m:Text text="Nome do Cliente" />
+                                        </m:Column>
+                                        <m:Column>
+                                            <m:Text text="Cidade" />
+                                        </m:Column>
+                                        <m:Column>
+                                            <m:Text text="Bairro" />
+                                        </m:Column>
+                                    </m:columns>
+                                    <m:items>
+                                        <m:ColumnListItem >
+                                            <m:cells>
+                                                <m:ObjectIdentifier text="{Vbeln}" />
+                                            </m:cells>
+                                            <m:cells>
+                                                <m:ObjectNumber number="{SeqEntrega}" />
+                                            </m:cells>
+                                            <m:cells>
+                                                <m:ObjectIdentifier text="{Brgew}" />
+                                            </m:cells>
+                                            <m:cells>
+                                                <m:ObjectIdentifier text="{Name1}" />
+                                            </m:cells>
+                                            <m:cells>
+                                                <m:ObjectIdentifier text="{Ort01}" />
+                                            </m:cells>
+                                            <m:cells>
+                                                <m:ObjectIdentifier text="{Ort02}" />
+                                            </m:cells>
+                                        </m:ColumnListItem>
+                                    </m:items>
+                                </m:Table>
+                            </blocks>
+                        </ObjectPageSubSection>
+                    </subSections>
+                </ObjectPageSection>
+            </sections>
+        </ObjectPageLayout>
+    </m:Page>
+</mvc:View>

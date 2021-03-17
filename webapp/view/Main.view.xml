@@ -1,0 +1,232 @@
+<mvc:View xmlns:f="sap.f"
+	xmlns:chart="sap.chart"
+	xmlns:filterbar="sap.ui.comp.filterbar"
+	controllerName="renovRetail.OverviewOrdemFrete.overviewordemfrete.controller.Main"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:card="sap.f.cards"
+	xmlns:core="sap.ui.core"
+	xmlns:microchart="sap.suite.ui.microchart"
+	xmlns:layout="sap.ui.layout"
+	xmlns:viz.data="sap.viz.ui5.data"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+	displayBlock="true"
+	xmlns="sap.m">
+	<f:DynamicPage id="dynamicPageId"
+		headerExpanded="{/headerExpanded}">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="{i18n>title}" />
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:header>
+			<f:DynamicPageHeader pinnable="true">
+				<f:content>
+					<Toolbar >
+						<MultiComboBox selectionFinish="handleSelectionFinish"
+							items="{
+                                        path: '/Filiais',
+                                        sorter: { path: 'Werks' }
+                                    }"
+							selectedKeys="{viewModel>/Werks}"
+							placeholder="{i18n>main_filial}">
+							<core:Item key="{Werks}"
+								text="{Name1}" />
+						</MultiComboBox>
+						<DateRangeSelection placeholder="{i18n>main_data}"
+							change="handleDateChange"
+							dateValue="{viewModel>/Date}"
+							secondDateValue="{viewModel>/Date2}"
+							valueFormat="dd/MM/yyyy"/>
+					</Toolbar>
+				</f:content>
+			</f:DynamicPageHeader>
+		</f:header>
+		<f:content>
+			<VBox>
+				<layout:VerticalLayout id="containerLayout"
+					width="100%">
+					<layout:BlockLayout id="BlockLayout">
+						<layout:BlockLayoutRow accentCells="Accent1">
+							<layout:BlockLayoutCell>
+								<f:Card>
+									<f:header>
+										<card:Header title="{i18n>main_documentos_por_status}"
+											subtitle="{i18n>main_subtitle_documentos_por_status}"
+											iconSrc="sap-icon://donut-chart" />
+									</f:header>
+									<f:content>
+										<viz:VizFrame xmlns="sap.viz"
+											id="donut-chart"
+											vizType="donut"
+											uiConfig="{applicationSet:'fiori'}"
+											class="incidentChart"
+											width="100%"
+											vizProperties="{ 
+														legendGroup: {
+															layout: {
+																position: 'bottom',
+																height: '0.30'
+															}
+														},
+														legend: {
+															isScrollable: 'false'
+														},
+															 plotArea: { dataLabel: { visible: 'true' } }, title:{ text:'Status de Ord. de Carreg.'}}">
+											<viz:dataset>
+												<viz.data:FlattenedDataset data="{/TotaisPorStatus}">
+													<viz.data:dimensions>
+														<viz.data:DimensionDefinition name="Descricao"
+															value="{Descricao}" />
+													</viz.data:dimensions>
+													<viz.data:measures>
+														<viz.data:MeasureDefinition name="Percent"
+															value="{= parseFloat(${Percent}) }" />
+													</viz.data:measures>
+												</viz.data:FlattenedDataset>
+											</viz:dataset>
+											<viz:feeds>
+												<viz.feeds:FeedItem uid="size"
+													type="Measure"
+													values="Percent"/>
+												<viz.feeds:FeedItem uid="color"
+													type="Dimension"
+													values="Descricao" />
+											</viz:feeds>
+										</viz:VizFrame>
+									</f:content>
+								</f:Card>
+							</layout:BlockLayoutCell>
+
+							<layout:BlockLayoutCell>
+								<f:Card>
+									<f:header>
+										<card:Header title="{i18n>main_documentos_por_dif}"
+											subtitle="{i18n>main_subtitle_documentos_por_dif}"
+											iconSrc="sap-icon://business-objects-experience" />
+									</f:header>
+									<f:content>
+										<viz:VizFrame xmlns="sap.viz"
+											id="column-chart"
+											vizType="column"
+											uiConfig="{applicationSet:'fiori'}"
+											class="incidentChart"
+											width="100%"
+											busy="false"
+											vizProperties="{  title:{ text:'Dif.Carregamento e Frete'}}">
+											<viz:dataset>
+												<viz.data:FlattenedDataset data="{/TotaisPorDif}">
+													<viz.data:dimensions>
+														<viz.data:DimensionDefinition name="Descricao"
+															value="{Descricao}" />
+													</viz.data:dimensions>
+													<viz.data:measures>
+														<viz.data:MeasureDefinition name="Count"
+															value="{Count}" />
+													</viz.data:measures>
+												</viz.data:FlattenedDataset>
+											</viz:dataset>
+											<viz:feeds>
+												<viz.feeds:FeedItem uid="valueAxis"
+													type="Measure"
+													values="Count"/>
+												<viz.feeds:FeedItem uid="categoryAxis"
+													type="Dimension"
+													values="Descricao" />
+											</viz:feeds>
+										</viz:VizFrame>
+									</f:content>
+								</f:Card>
+							</layout:BlockLayoutCell>
+							<layout:BlockLayoutCell>
+								<f:Card>
+									<f:header>
+										<card:Header title="{i18n>main_documentos_por_fat}"
+											subtitle="{i18n>main_subtitle_documentos_por_fat}"
+											iconSrc="sap-icon://donut-chart" />
+									</f:header>
+									<f:content>
+										<viz:VizFrame xmlns="sap.viz"
+											id="donut-chart-fat"
+											vizType="donut"
+											uiConfig="{applicationSet:'fiori'}"
+											class="incidentChart"
+											width="100%"
+											busy="false"
+											vizProperties="{ 
+															legendGroup: {
+																layout: {
+																	position: 'bottom'
+																}
+															},
+															legend: {
+																isScrollable: 'false'
+															},
+															interaction : { selectability : { mode : 'NONE' } },
+																 plotArea: { dataLabel: { visible: 'true' } }, title:{ text:'Status de Remessas'}}">
+											<viz:dataset>
+												<viz.data:FlattenedDataset data="{/TotaisPorFat}">
+													<viz.data:dimensions>
+														<viz.data:DimensionDefinition name="Descricao"
+															value="{Descricao}" />
+													</viz.data:dimensions>
+													<viz.data:measures>
+														<viz.data:MeasureDefinition name="Count"
+															value="{Count}" />
+													</viz.data:measures>
+												</viz.data:FlattenedDataset>
+											</viz:dataset>
+											<viz:feeds>
+												<viz.feeds:FeedItem uid="size"
+													type="Measure"
+													values="Count"/>
+												<viz.feeds:FeedItem uid="color"
+													type="Dimension"
+													values="Descricao" />
+											</viz:feeds>
+										</viz:VizFrame>
+									</f:content>
+								</f:Card>
+							</layout:BlockLayoutCell>
+						</layout:BlockLayoutRow>
+					</layout:BlockLayout>
+				</layout:VerticalLayout>
+				<Table id="table"
+					items="{/Documentos}"
+					growing="true"
+					growingScrollToLoad="true">
+					<columns>
+						<Column >
+							<Text text="{i18n>main_nr_carga_ord_frete}"/>
+						</Column>
+						<Column >
+							<Text text="{i18n>main_peso_entrega}" />
+						</Column>
+						<Column >
+							<Text text="{i18n>main_rota}" />
+						</Column>
+						<Column >
+							<Text text="{i18n>main_frota}" />
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem type="Active"
+							press="onDocumentPress">
+							<cells>
+								<ObjectIdentifier title="{= parseFloat(${CodigoInt}) }"
+									text="{i18n>main_ordem_frete} {TorId}"
+									class="sapUiTinyMarginTopBottom" />
+								<ObjectNumber number="{PesoBruto} Kg"
+									emphasized="false"/>
+								<Text text="{Rota}" />
+								<Text text="{Frota}" />
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</VBox>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>
