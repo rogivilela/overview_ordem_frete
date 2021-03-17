@@ -107,7 +107,7 @@
       "targets": {
         "main": {
           "clearControlAggregation": false,
-          "viewName": "Main",
+          "viewName": "Master",
           "type": "View",
           "id": "home"
         },

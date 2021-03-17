@@ -11,7 +11,7 @@ sap.ui.define([
 	function (Controller, JSONModel, DatePicker, Filter, FilterOperator) {
 		"use strict";
 
-		return Controller.extend("renovRetail.OverviewOrdemFrete.overviewordemfrete.controller.Main", {
+		return Controller.extend("renovRetail.OverviewOrdemFrete.overviewordemfrete.controller.Master", {
 			mandatoryChart: null,
 			onInit: function () {
 				this.oViewModel = new JSONModel({
